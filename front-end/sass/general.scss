@@ -1,0 +1,29 @@
+body, h1, h2, h3, h4, h5, p{
+    margin:0;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+@font-face {
+    font-family: bold;
+    src: url(../Font/Merriweather-Bold.otf);
+}
+
+@font-face {
+    font-family: normal;
+    src: url(../Font/Merriweather-Light.otf);
+}
+
+
+h1, h2, h3, h4, a, span{
+    font-family: bold;
+}
+
+p{
+    font-family: normal;
+}
+
+

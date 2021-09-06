@@ -1,0 +1,134 @@
+body, h1, h2, h3, h4, h5, p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+@font-face {
+  font-family: bold;
+  src: url(../Font/Merriweather-Bold.otf);
+}
+@font-face {
+  font-family: normal;
+  src: url(../Font/Merriweather-Light.otf);
+}
+h1, h2, h3, h4, a, span {
+  font-family: bold;
+}
+
+p {
+  font-family: normal;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: #162B32;
+  height: 70px;
+}
+
+header h1 {
+  padding-left: 2%;
+  color: white;
+}
+
+nav {
+  padding-right: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  font-size: large;
+}
+
+.linkProduits {
+  margin-right: 2.5rem;
+}
+
+.bloc_image {
+  height: 350px;
+}
+
+.bloc_image img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  opacity: 0.6;
+  position: relative;
+}
+
+.bloc_image p {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 40%;
+  font-size: 1.5rem;
+  font-family: bold;
+}
+
+.bloc_produits h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.produits {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 5%;
+  row-gap: 30px;
+  margin-right: 5%;
+  margin-left: 5%;
+  margin-bottom: 50px;
+}
+
+@media (max-width: 1060px) {
+  .produits {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 725px) {
+  .produits {
+    grid-template-columns: 1fr;
+  }
+}
+.card_product {
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.card_product img {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  height: 70%;
+  width: 100%;
+}
+
+.heading_card, .description_card {
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+.heading_card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.description_card {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+/*# sourceMappingURL=style.css.map */
