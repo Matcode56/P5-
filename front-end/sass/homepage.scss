@@ -109,13 +109,18 @@ nav a {
 .heading_card, .description_card{
     margin-left: 4%;
     margin-right: 4%;
+
 }
 .heading_card{
     @include space;
-    margin-top: 5px;
 }
 
 .description_card{
-    margin-top:10px;
+    margin-top:7px;
     font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }

@@ -11,33 +11,32 @@ function getProduct(){
         console.log(products);
         for (let article in products){
             let card_product= document.createElement("a");
-            document.querySelector(".produits").appendChild(card_product);
-            card_product.classList.add("card_product");
-
             let img_product= document.createElement("img");
-            card_product.appendChild(img_product);
-            img_product.classList.add("card_img");
-            img_product.src = responseAPI[article].imageURL;
-
             let heading_card= document.createElement("div");
-            card_product.appendChild("heading_card");
-            heading_card.classList("heading_card");
-
             let title_card= document.createElement("h3");
-            heading_card.appendChild("title_card");
-            title_card.innerHTML=responseAPI[article].name;
-
-            let price_card= document.createElement("span")
-            heading_card.appendChild("title_card");
-            price_card.innerHTML=responseAPI[article].price;
-
+            let price_card= document.createElement("span");
             let description_product= document.createElement("p");
-            card_product.appendChild("description_product");
-            description_product.classList("description_card")
-            description_product.innerHTML= resultatAPI[article].description;
+
+            document.querySelector(".produits").appendChild(card_product);
+           card_product.append(img_product, heading_card, description_product);
+           heading_card.append(title_card, price_card);
+
+           card_product.classList.add("card_product");
+           img_product.classList.add("card_img");
+           heading_card.classList.add("heading_card");
+           description_product.classList.add("description_card");
+
+           img_product.src = responseAPI[article].imageUrl;
+           title_card.innerHTML= responseAPI[article].name;
+           price_card.innerHTML=responseAPI[article].price; 
+           description_product.innerHTML= responseAPI[article].description;
+           
 
 
-        
+
+
+
+            
         }
         
     })
