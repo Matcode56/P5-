@@ -1,5 +1,3 @@
-
-
 function getProduct(){
     fetch("http://localhost:3000/api/furniture")
     .then(function(response){
@@ -26,9 +24,15 @@ function getProduct(){
            heading_card.classList.add("heading_card");
            description_product.classList.add("description_card");
 
+           card_product.href=`product.html?id=${responseAPI[article]._id}`;
            img_product.src = responseAPI[article].imageUrl;
            title_card.innerHTML= responseAPI[article].name;
-           price_card.innerHTML=responseAPI[article].price; 
+
+           Price_convert = responseAPI[article].price / 100;
+           price_card.innerHTML=new Intl.NumberFormat('fr-FR', { 
+               style: 'currency', currency: 'EUR' }
+               ).format(Price_convert);
+
            description_product.innerHTML= responseAPI[article].description;
            
 

@@ -1,0 +1,25 @@
+header{
+    @include space;
+    width:100%;
+    background: #162B32;
+    height:70px;
+}
+
+header a{
+    padding-left: 2%;
+    color: white;
+}
+nav{
+    padding-right: 2%;
+    @include center;
+    
+}
+
+nav a {
+    color: white;
+    font-size: large;
+}
+
+.linkProduits{
+    margin-right: 2.5rem;
+}
