@@ -1,0 +1,36 @@
+.basket{
+    margin: auto;
+    @include shadow_light;
+    width: 80%;
+    margin-top: 25px;
+    margin-bottom: 75px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.basket h2{
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.product_added{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.5fr;
+    column-gap: 5%;
+    row-gap: 20px;
+    width: 75%;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.total_product{
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.btn_validate{
+    
+    @include center;
+    margin: auto;
+}

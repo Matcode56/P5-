@@ -105,7 +105,7 @@ console.log(Url);
                             if (eltInStorage === null){
                                 eltInStorage=[];
                                 eltInStorage.push(productAdded);
-                                localStorage.setItem("product", JSON.stringify(arrAddStorage))
+                                localStorage.setItem("product", JSON.stringify(eltInStorage))
                                 console.log(eltInStorage)
                     
                             }
