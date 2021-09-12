@@ -51,14 +51,16 @@
     margin-bottom: 20px;
 }
 
-.btn_add{
+.div_basket{
     @include center;
-    & a{
-        @include shadow_light;
-        border: 1px solid transparent;
-        border-radius: 2rem;
-        padding: 1rem;
-        background: #faef99;
-    }
+  
+}
+
+.btn_add{
+    @include shadow_light;
+    border: 1px solid transparent;
+    border-radius: 2rem;
+    padding: 1rem;
+    background: #faef99;
 }
 
