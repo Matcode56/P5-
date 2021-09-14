@@ -35,12 +35,6 @@ function getProduct(){
 
            description_product.innerHTML= responseAPI[article].description;
            
-
-
-
-
-
-            
         }
         
     })

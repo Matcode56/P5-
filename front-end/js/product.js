@@ -69,10 +69,8 @@ console.log(Url);
                 select_color.appendChild(colorOption)
                 })
 
-
-                // Création des différen
                 
-                // Renvoie des données vers un local Storage
+                // Renvoie des données vers le local Storage
 
                 const btn_basket= document.querySelector("#btn_add");
                 const input_quantity= document.querySelector("#quantity_product");
@@ -91,12 +89,13 @@ console.log(Url);
                     if(input_quantity.value>0){
 
                         let productAdded={
-                            name: title_product.innerHTML,
-                            price: price_product.innerHTML,
+                            name: product.name,
+                            price: product.price/100,
                             quantity: input_quantity.value,
                             color: color_selected,
+                            id: id,
                         }
-
+                        console.log(productAdded);
                         let eltInStorage= JSON.parse(localStorage.getItem("product"))
                         console.log(eltInStorage)
                         function addLocalStorage(){
@@ -135,3 +134,4 @@ console.log(Url);
         });
 
     
+        
