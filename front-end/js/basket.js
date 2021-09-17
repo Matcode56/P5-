@@ -53,7 +53,7 @@ function btn_suppr(){
                 console.log(productLocalStorage);
                 localStorage.setItem("product", JSON.stringify(productLocalStorage));
 
-                window.location.href="basket.html"
+                window.location.href="basket.html";
 
             });
         }
@@ -246,6 +246,8 @@ function controleForm(){
                            localStorage.setItem("numberId", responseAPI.orderId);
                            localStorage.setItem("priceOrder", Price_total);
                            localStorage.removeItem("product");
+
+                           window.location.href="confirmation.html"
                             
                         })
                     

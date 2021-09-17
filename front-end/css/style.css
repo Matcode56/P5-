@@ -280,4 +280,46 @@ form div {
   grid-template-columns: 1fr 1fr;
 }
 
+.bloc_confirm {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  max-width: 1500px;
+}
+
+@media (max-width: 600px) {
+  .bloc_confirm {
+    width: 100%;
+    padding: 0px;
+  }
+}
+.bloc_confirm h1 {
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+}
+
+.info_order {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.info_order p {
+  margin-bottom: 5px;
+}
+
+.info_order p span {
+  font-family: bold;
+}
+
+.thank_mess {
+  margin-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+}
+
 /*# sourceMappingURL=style.css.map */

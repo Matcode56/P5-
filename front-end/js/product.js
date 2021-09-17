@@ -8,6 +8,7 @@ console.log(id);
 const Url= `http://localhost:3000/api/furniture/${id}`
 console.log(Url);
 
+//Variable globale
 
 
 //Appel API
