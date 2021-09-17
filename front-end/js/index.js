@@ -1,26 +1,27 @@
-// Variable globale 
-let products=[];
 
 //Fonction fetch pour aller chercher les données dans l'API
+main();
 
-getProduct();
+async function main(){
+    const products= await getProducts();
 
-function getProduct(){
-    fetch("http://localhost:3000/api/furniture")
+    for(article of products){
+        display_product(article);
+    }
+}
+
+
+function getProducts(){
+    return fetch("http://localhost:3000/api/furniture")
     .then(function(response){
         return response.json();
     })
 
     .then(function(responseAPI){
-        return products= responseAPI;
-    })
-
-    .then(function(){
-        display_product();
+        return responseAPI;
     })
 
     .catch(function(error){
-
         let bloc_produits= document.querySelector(".produits");
         bloc_produits.innerHTML="Nous avons rencontrons un problème avec l'affichage des produits. Vérifier que le serveu local est bien actif. <br/> <br/> Vérifier que le port 3000 est bien actif";
         bloc_produits.classList.add("text_error");
@@ -30,9 +31,8 @@ function getProduct(){
 
 //Fonction permettant de disposer les produits sur la page Web
 
-function display_product(){
-    console.log(products);
-    for (let article in products){
+function display_product(article){
+
         let card_product= document.createElement("a");
         let img_product= document.createElement("img");
         let heading_card= document.createElement("div");
@@ -49,16 +49,15 @@ function display_product(){
        heading_card.classList.add("heading_card");
        description_product.classList.add("description_card");
 
-       card_product.href=`product.html?id=${products[article]._id}`;
-       img_product.src = products[article].imageUrl;
-       title_card.innerHTML= products[article].name;
+       card_product.href=`product.html?id=${article._id}`;
+       img_product.src = article.imageUrl;
+       title_card.innerHTML= article.name;
 
-       Price_convert = products[article].price / 100;
+       Price_convert = article.price / 100;
        price_card.innerHTML=new Intl.NumberFormat('fr-FR', { 
            style: 'currency', currency: 'EUR' }
            ).format(Price_convert);
 
-       description_product.innerHTML= products[article].description;
+       description_product.innerHTML= article.description;
        
     }
-}
