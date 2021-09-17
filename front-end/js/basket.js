@@ -1,5 +1,6 @@
 let productLocalStorage= JSON.parse(localStorage.getItem("product"));
 console.log(productLocalStorage);
+let Price_total= 0;
 
 
 let gridProduct= document.querySelector(".product_added");
@@ -59,12 +60,11 @@ function btn_suppr(){
     }
 
     // functionnalité calcul total
-
+    
     
     function calculTotalPrice (){   
         
         let div_total= document.querySelector(".total_product")
-        let Price_total= 0;
         let arrPrice=[];
         let totalQuantité=[];
         let multiply_quantity_price= [];
@@ -96,7 +96,8 @@ function btn_suppr(){
         
         
     }
-
+    
+   
 
 
 
@@ -197,31 +198,67 @@ function controleForm(){
                 }
 
             /* 
-            Création de la constance order SI toutes les règles sont respéctés pour 
-            stocker les infos nécessaires à envoyer aux back-end pour confirmer la commande
+            Envoie des données de la commande au back-end SI toutes les règles sont respéctées
             */
             
             else{
+
+                const idProductsBuy= [];
+                for(let id=0; id<productLocalStorage.length; id++){
+                    idProductsBuy.push(productLocalStorage[id].id);
+                }
+                console.log(idProductsBuy);
+                
+
+                
                 const order={
                     contact: {
                         firstName: inputName.value,
                         lastName: inputLastName.value,
-                        city: inputCity.value,
                         address: inputAdress.value,
+                        city: inputCity.value,
                         email: inputMail.value,
                     },
-                    products: productLocalStorage,
+                    products: idProductsBuy,
                 }
-                console.log(order)
+
+                const initRequest=
+                {
+                    method: "POST",
+                        body: JSON.stringify(order),
+                        headers: { "Content-Type": "application/json" },
+                        mode:"cors",
+                }
+
+                console.log(order);
+
+                function sendInfoServer(){
+                    fetch("http://localhost:3000/api/furniture/order", initRequest) 
+                       
+                        .then(function (response) {
+                            return response.json()
+                          })
+                    
+                        .then(function(responseAPI){
+                            console.log(responseAPI)
+                           console.log(responseAPI.orderId)
+                           
+                           localStorage.setItem("numberId", responseAPI.orderId);
+                           localStorage.setItem("priceOrder", Price_total);
+                           localStorage.removeItem("product");
+                            
+                        })
+                    
+                        .catch((error =>{
+                            console.log(error)
+                        }))
+                    
+                    }
+
+                    sendInfoServer();
             }
             
     })
 
-}
-
-const init={
-    method: "POST",
-    body: JSON.stringify(order),
-    
 }
 
