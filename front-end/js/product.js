@@ -39,7 +39,7 @@ function displayInfosProduct(product){
                 <p>
                     <label for="quantity_product">Quantité:</label>
                     <input type="number"  id="quantity_product" name="quantity_product" required
-                    minlength="1" maxlength="4">
+                    minlength="1" maxlength="2" step="1">
                 </p>
 
                 <p>
@@ -50,10 +50,11 @@ function displayInfosProduct(product){
                     </select>
                 </p>
 
-                
-                <a href ="#" class="div_basket">
-                    <button type ="submit" id="btn_add" value="submit"> Ajouter au panier</button>
-                </a>
+                <div class="validError">
+                    <a href ="#" class="div_basket">
+                        <button type ="submit" id="btn_add" value="submit"> Ajouter au panier</button>
+                    </a>
+                </div>
             </div>
 
         </div>`;
@@ -87,8 +88,14 @@ function displayInfosProduct(product){
 
 
         btn_basket.addEventListener("click", () => {
+
+            
+           
+           
+            console.log(Number.isInteger(Number(input_quantity.value)));
+
             // Si l'utilisateur a rentré une quantité valide
-            if(input_quantity.value>0){
+            if(input_quantity.value>0 && Number.isInteger(Number(input_quantity.value))){
 
                 let productAdded={
                     name: product.name,
@@ -135,7 +142,13 @@ function displayInfosProduct(product){
                 
             }
             else{
-                alert("Veuillez entrer une quantité de produit")
+                if(document.querySelector(".textError")=== null){
+                const div_validError= document.querySelector(".validError");
+                const textError= document.createElement("p");
+                textError.classList.add("textError");
+                textError.innerHTML="Veuillez entrer une quantité valide";
+                div_validError.prepend(textError);
+                }
             }
             });
         

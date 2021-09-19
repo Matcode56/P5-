@@ -1,47 +1,61 @@
-let productLocalStorage= JSON.parse(localStorage.getItem("product"));
-console.log(productLocalStorage);
-let Price_total= 0;
+main();
 
+async function main(){
+    const productLocalStorage= getProduct();
+    console.log(productLocalStorage);
 
-let gridProduct= document.querySelector(".product_added");
-
-if(productLocalStorage===null){
-    gridProduct.innerHTML="Votre panier est vide "
-}
-else{
-    addInfosProduct();
-    calculTotalPrice();
-    btn_suppr();
-    controleForm();
+    let gridProduct= document.querySelector(".product_added");
+    if(productLocalStorage===null || productLocalStorage.length==0){
+        gridProduct.innerHTML="Votre panier est vide "
     }
-   
-    
+    else{
+        const Total_Price= calcTotalPrice(productLocalStorage);
+        displayInfosProduct(productLocalStorage, Total_Price);
+        runBtnDelete(productLocalStorage);
+        calcTotalPrice(productLocalStorage);
+        displayForm();
+        controlForm(productLocalStorage, Total_Price);
+        
+    }
 
-function addInfosProduct(){
-
     
-    for(i=0; i< productLocalStorage.length; i++){
-        gridProduct.innerHTML+= 
-        `<p class="name_product">${productLocalStorage[i].name}</p>
+    
+}
+
+function getProduct(){
+    return JSON.parse(localStorage.getItem("product"));
+}
+
+
+function displayInfosProduct(productLocalStorage, Price_total){
+
+    let gridProduct= document.querySelector(".product_added");
+  
+        for(i=0; i< productLocalStorage.length; i++){
+            gridProduct.innerHTML+= 
+            `<p class="name_product">${productLocalStorage[i].name}</p>
                      
-        <p class="quantity_product">${productLocalStorage[i].quantity}</p>
+            <p class="quantity_product">${productLocalStorage[i].quantity}</p>
 
-        <p class="color_product">${productLocalStorage[i].color}</p>
+            <p class="color_product">${productLocalStorage[i].color}</p>
        
-        <p class="price_product_">${new Intl.NumberFormat('fr-FR', { 
-            style: 'currency', currency: 'EUR' }
-            ).format(productLocalStorage[i].price)}</p>
+            <p class="price_product_">${new Intl.NumberFormat('fr-FR', { 
+                style: 'currency', currency: 'EUR' }
+                ).format(productLocalStorage[i].price)}</p>
 
-        <button class="btn_delete"> Suppr </button>`
-    }
+            <button class="btn_delete"> Suppr </button>`
+        }
+
+        let div_total= document.querySelector(".total_product");
+
+        div_total.innerHTML= "Total: "+  new Intl.NumberFormat('fr-FR', { 
+            style: 'currency', currency: 'EUR' }
+            ).format(Price_total);
+    
 }
 
-// Ajout fonctionnalité bouton supprimé
-function btn_suppr(){
+function runBtnDelete(productLocalStorage){
     let btn_delete= document.querySelectorAll(".btn_delete");
-
-    console.log(btn_delete);
-    
         
         for(let l=0; l<btn_delete.length; l++){
             btn_delete[l].addEventListener("click", (event) => {
@@ -59,12 +73,11 @@ function btn_suppr(){
         }
     }
 
-    // functionnalité calcul total
-    
-    
-    function calculTotalPrice (){   
+    function calcTotalPrice (productLocalStorage){   
+
+        let Price_total= 0;
+
         
-        let div_total= document.querySelector(".total_product")
         let arrPrice=[];
         let totalQuantité=[];
         let multiply_quantity_price= [];
@@ -78,6 +91,8 @@ function btn_suppr(){
             totalQuantité = totalQuantité.map((x) => parseFloat(x));
         }
 
+        
+
         for(let d=0; d<arrPrice.length; d++){
 
             multiply_quantity_price.push(arrPrice[d]*totalQuantité[d]);
@@ -88,25 +103,70 @@ function btn_suppr(){
             Price_total+= price;
         })
        
+        return Price_total;
         
-       
-        div_total.innerHTML= "Total: "+  new Intl.NumberFormat('fr-FR', { 
-            style: 'currency', currency: 'EUR' }
-            ).format(Price_total);
-        
+    
         
     }
-    
+
+    function displayForm(){
+        let bloc_form= document.querySelector(".bloc_form");
+        bloc_form.innerHTML=
+        `<h2>Coordoonées</h2>
+        <form class="form">
+            <div>
+                <label for="name">Prénom:</label>
+                <input type="text" placeholder="Prénom" id="name" name="user_name" required> 
+            </div>
+            
+            <div>
+                <label for="lastname">Nom:</label>
+                <input type="text" placeholder="Nom" id="lastname" name="user_lastname" required>
+            </div>
+            
+        
+            <div>      
+                <label for="postal">Code postal:</label>
+                <input type="text" placeholder="Code postal" id="postal" name="user_postal" required>
+            </div>      
+            
+            <div>
+                <label for="city">Ville:</label>
+                <input type="text" placeholder="Ville" id="city" name="user_city" required>
+            </div>
+            
+            
+        
+            <div>
+                <label for="adress">Adresse:</label>
+                <input type="text" placeholder="Adresse de livraison" id="adress" name="user_adress" required>
+            </div>
+            
+            <div>
+                <label for="mail">Adresse mail:</label>
+                <input type="email" placeholder="Adresse mail" id="mail" name="user_mail" required>
+            </div>
+            
+            <div>
+                <label for="phone" >Numéro de téléphone:</label>
+                <input type="tel" placeholder="Numéro de téléphone" id="phone" name="phone" required >
+            </div>
+            
+
+        </form>
+
+        <button id="btn_validate">Validez mon panier</button>`
+    }
    
 
 
 
-function controleForm(){
+function controlForm(productLocalStorage, Total_Price){
 
     // Récupération données formulaire 
 
-    const form= document.querySelector(".form");
-    let text_error= document.querySelector("p");
+    const form= document.querySelector(".bloc_form");
+    let text_error= document.createElement("p");
     let inputName= document.querySelector("#name");
     let inputLastName= document.querySelector("#lastname");
     let inputPostal= document.querySelector("#postal");
@@ -117,33 +177,12 @@ function controleForm(){
     const btn_confirm= document.querySelector("#btn_validate");
 
 
-
-    // Règles Regex
-
-    let emailRegExp= new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)
-
-    let telRegExp= new RegExp(/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/g);
-
-    let postalRegExp= new RegExp(/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/g);
-
-
-    function testEmail(email){
-        return emailRegExp.test(email);
-    }
-
-    function testTel(tel){
-        return telRegExp.test(tel);
-    }
-
-    function testPostal(Postal){
-        return postalRegExp.test(Postal);
-    }
-
-
     
     //Contrôle si les règles Regex sont respéctés
 
     btn_confirm.addEventListener("click", (event) =>{
+        
+        console.log(inputCity.value);
         event.preventDefault();
             if(!inputName.value ||
                 !inputLastName.value ||
@@ -154,16 +193,9 @@ function controleForm(){
                 !inputTel.value){
 
                     form.append(text_error);
-                    text_error.innerHTML="Attention, vous n'avez pas rempli tout les champs"
+                    text_error.innerHTML="Attention, vous n'avez pas rempli tout les champs";
             }
-            else if(
-                inputName.value == true &&
-                inputLastName.value == true &&
-                inputPostal.value == true &&
-                inputCity.value == true &&
-                inputAdress.value == true &&
-                inputTel.value == true &&
-                !testEmail(inputMail.value)){
+            else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(inputMail.value)){
                     
                     form.append(text_error);
                     text_error.innerHTML="Veuillez saisir une adresse mail valide";
@@ -171,38 +203,19 @@ function controleForm(){
             
             }
             
-            else if(
-                inputName.value== true  &&
-                inputLastName.value == true &&
-                inputPostal.value == true  &&
-                inputCity.value == true &&
-                inputAdress.value == true &&
-                inputMail.value == true &&
-                !testTel(inputTel.value)){
+            else if(!/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/g.test(inputTel.value)){
                     form.append(text_error);
                     text_error.innerHTML="Veuillez saisir un numéro de téléphone valide";
                     console.log(inputTel.value)
                 }
 
-            else if(
-                inputName.value == true &&
-                inputLastName.value == true &&
-                inputPostal.value == true &&
-                inputCity.value == true &&
-                inputAdress.value == true  &&
-                inputMail.value == true &&
-                inputTel.value == true &&
-                !testPostal(inputPostal)){
+            else if(!/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/g.test(inputPostal.value)){
                     form.append(text_error);
                     text_error.innerHTML="Veuillez saisir votre code postal complet et valide";
                 }
-
-            /* 
-            Envoie des données de la commande au back-end SI toutes les règles sont respéctées
-            */
+            
             
             else{
-
                 const idProductsBuy= [];
                 for(let id=0; id<productLocalStorage.length; id++){
                     idProductsBuy.push(productLocalStorage[id].id);
@@ -222,45 +235,46 @@ function controleForm(){
                     products: idProductsBuy,
                 }
 
-                const initRequest=
+
+
+                sendOrder(order, Total_Price);
+                }
+            })
+        }
+
+        function sendOrder(order, Total_Price){
+            
+            console.log(order)
+            
+            const initRequest=
                 {
                     method: "POST",
                         body: JSON.stringify(order),
                         headers: { "Content-Type": "application/json" },
                         mode:"cors",
                 }
-
-                console.log(order);
-
-                function sendInfoServer(){
-                    fetch("http://localhost:3000/api/furniture/order", initRequest) 
-                       
-                        .then(function (response) {
-                            return response.json()
-                          })
-                    
-                        .then(function(responseAPI){
-                            console.log(responseAPI)
-                           console.log(responseAPI.orderId)
-                           
-                           localStorage.setItem("numberId", responseAPI.orderId);
-                           localStorage.setItem("priceOrder", Price_total);
-                           localStorage.removeItem("product");
-
-                           window.location.href="confirmation.html"
-                            
-                        })
-                    
-                        .catch((error =>{
-                            console.log(error)
-                        }))
-                    
-                    }
-
-                    sendInfoServer();
-            }
             
-    })
+                fetch("http://localhost:3000/api/furniture/order", initRequest) 
+                       
+                .then(function (response) {
+                    return response.json()
+                  })
+            
+                .then(function(responseAPI){
+                    console.log(responseAPI)
+                   console.log(responseAPI.orderId)
+                   
+                   localStorage.setItem("numberId", responseAPI.orderId);
+                   localStorage.setItem("priceOrder", Total_Price);
+                   localStorage.removeItem("product");
 
-}
+                   window.location.href="confirmation.html"
+                    
+                })
+            
+                .catch((error =>{
+                    console.log(error)
+                }))
+            
+        }
 
