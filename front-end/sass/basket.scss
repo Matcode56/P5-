@@ -24,6 +24,19 @@
     margin-bottom: 45px;
 }
 
+@media (max-width: 750px){
+    .product_added{
+    width:95%;
+    }
+}
+.btn_delete{
+    border-radius: 1rem;
+    border: 1px grey solid;
+    background: 	#DC143C;
+    color: white;
+    height:25px;
+}
+
 .total_product{
     text-align: center;
     margin-bottom: 40px;
