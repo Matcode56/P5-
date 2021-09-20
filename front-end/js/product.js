@@ -3,6 +3,7 @@ main();
 
 async function main(){
     const idProduct= getIdProduct()
+    console.log(idProduct);
     const product= await getInfosProduct(idProduct);
     displayInfosProduct(product);
 }
@@ -37,13 +38,13 @@ function displayInfosProduct(product){
 
             <div class="infos_order">
                 <p>
-                    <label for="quantity_product">Quantité:</label>
+                    <label for="quantity_product" class="label_product_page">Quantité:</label>
                     <input type="number"  id="quantity_product" name="quantity_product" required
                     minlength="1" maxlength="2" step="1">
                 </p>
 
                 <p>
-                    <label for="color_product">Couleur:</label>
+                    <label for="color_product" class="label_product_page">Couleur:</label>
 
                     <select name="color_product" id="color_product">
                         

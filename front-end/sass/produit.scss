@@ -41,6 +41,11 @@
     margin-left: 4%;
 }
 
+.label_product_page{
+    display: inline-block;
+    padding-right: 10px;
+}
+
 #quantity_product{
     margin-bottom: 25px;
     height:25x;
@@ -53,19 +58,19 @@
 
 .div_basket{
     @include center;
-    
-  
+     
 }
 
 #btn_add{
     @include shadow_light;
-    border: 1px solid transparent;
+    border: 1.5px solid grey;
     border-radius: 2rem;
     padding: 1rem;
     background-color: #6a93cb;
     background-image: linear-gradient(315deg, #6a93cb 0%, #a4bfef 74%);
     color: white;
     font-family: bold;
+    font-size: 1em;
 
 }
 
@@ -84,4 +89,8 @@
     margin-right: auto;
     border-radius: 1rem;
     width: 60%;
+    padding:1rem;
 }
+
+
+

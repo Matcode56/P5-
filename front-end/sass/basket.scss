@@ -6,6 +6,16 @@
     margin-bottom: 75px;
     padding-top: 25px;
     padding-bottom: 25px;
+    max-width: 1350px;
+    border-radius: 1rem;
+    border: solid 1px grey;
+}
+
+@media (max-width: 550px) {
+    .basket{
+        width:100%;
+        border-radius: 0;
+    }
 }
 
 .basket h2{
@@ -13,15 +23,9 @@
     margin-bottom: 25px;
 }
 
-.product_added{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr;
-    column-gap: 5%;
-    row-gap: 20px;
-    width: 75%;
-    margin: auto;
-    text-align: center;
-    margin-bottom: 45px;
+
+.textBasketEmpty{
+    @include center;
 }
 
 @media (max-width: 750px){
@@ -35,17 +39,61 @@
     background: 	#DC143C;
     color: white;
     height:25px;
+    width: 70px;
+    margin-top: 10px;
 }
 
-.total_product{
+.total_price{
     text-align: center;
+    margin-top: 25px;
     margin-bottom: 40px;
+    font-family: bold;
+    font-size: 1.2em;
 }
 
-.btn_validate{
-    
+
+.textEmptyBasket{
     @include center;
+    margin-bottom: 25px;
+}
+
+.link_return{
+    @include center;
+    text-decoration: underline;
+}
+
+.cards_product_basket{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 30px;
+    column-gap: 7%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.card_product_basket{
+    height:auto;
+    padding: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border: grey solid 2px;
+    border-radius: 1rem;
     margin: auto;
+    width: 90%;
+    text-align: center;
+}
+
+@media (max-width:1460px){
+    .cards_product_basket{
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+@media(max-width: 800px){
+    .cards_product_basket{
+        grid-template-columns: 1fr;
+    }
+
 }
 
 
@@ -61,7 +109,40 @@ form{
     width: 75%;
 }
 
+@media (max-width: 920px) {
+    form{
+    grid-template-columns:1fr;
+    
+    }
+}
+
 form div{
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+#btn_validate{
+    @include center;
+    margin: auto;
+    border-radius: 2rem;
+    height: 40px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    font-size: large;
+    background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+    border: 1px solid grey;
+    color: white;
+}
+
+input{
+    border-radius: 1rem;
+    padding: 0.2rem;
+    height:20px;
+    text-align: center;
+    border: 1px grey solid;
+}
+
+
+label{
+    @include center;
 }

@@ -2,23 +2,21 @@ main();
 
 async function main(){
     const productLocalStorage= getProduct();
-    console.log(productLocalStorage);
+    
 
-    let gridProduct= document.querySelector(".product_added");
+    
     if(productLocalStorage===null || productLocalStorage.length==0){
-        gridProduct.innerHTML="Votre panier est vide "
+        emptyBasket()
     }
+
     else{
+        const idProductsBuy= getIdProduct(productLocalStorage);
         const Total_Price= calcTotalPrice(productLocalStorage);
         displayInfosProduct(productLocalStorage, Total_Price);
         runBtnDelete(productLocalStorage);
-        calcTotalPrice(productLocalStorage);
         displayForm();
-        controlForm(productLocalStorage, Total_Price);
-        
+        controlForm(idProductsBuy, Total_Price);
     }
-
-    
     
 }
 
@@ -26,41 +24,80 @@ function getProduct(){
     return JSON.parse(localStorage.getItem("product"));
 }
 
+function emptyBasket(){ 
+    let bloc_product= document.querySelector(".bloc_product_basket");
+    bloc_product.innerHTML=
+    `
+    <p class="textEmptyBasket">Votre panier est vide</p>
+    <a href="index.html" class="link_return">Retourner à la séléction d'article</a>
+    `
+}
+function getIdProduct(productLocalStorage){
+    idProductsBuy= [];
+    for(let id=0; id<productLocalStorage.length; id++){
+        idProductsBuy.push(productLocalStorage[id].id);
+    }
+    return idProductsBuy;
+}
+
+
+
 
 function displayInfosProduct(productLocalStorage, Price_total){
 
-    let gridProduct= document.querySelector(".product_added");
-  
-        for(i=0; i< productLocalStorage.length; i++){
-            gridProduct.innerHTML+= 
-            `<p class="name_product">${productLocalStorage[i].name}</p>
-                     
-            <p class="quantity_product">${productLocalStorage[i].quantity}</p>
+    const bloc_product= document.querySelector(".bloc_product_basket");
+    const cards_product_basket= document.createElement("div");
+    cards_product_basket.classList.add("cards_product_basket")
+    const total_price= document.createElement("p");
+    total_price.classList.add("total_price");
 
-            <p class="color_product">${productLocalStorage[i].color}</p>
-       
-            <p class="price_product_">${new Intl.NumberFormat('fr-FR', { 
-                style: 'currency', currency: 'EUR' }
-                ).format(productLocalStorage[i].price)}</p>
-
-            <button class="btn_delete"> Suppr </button>`
+    for(i=0; i< productLocalStorage.length; i++){
+    cards_product_basket.innerHTML+=
+    `             
+        
+                <div class="card_product_basket">
+                    <h3>${productLocalStorage[i].name}</h3>
+                    <p class="quantity_product_basket">${"Quantité: "+productLocalStorage[i].quantity}</p>
+                    <p class="color_product_basket">${"Couleur :"+ productLocalStorage[i].color}</p>
+                    <p class="price_product_basket">${"Prix :" + new Intl.NumberFormat('fr-FR', { 
+                        style: 'currency', currency: 'EUR' }
+                        ).format(productLocalStorage[i].price)}</p>
+                <div/>
+    `
         }
 
-        let div_total= document.querySelector(".total_product");
+    total_price.innerHTML=
+    `
+    ${"Total: "+  new Intl.NumberFormat('fr-FR', { 
+        style: 'currency', currency: 'EUR' }
+        ).format(Price_total)}
+    `
 
-        div_total.innerHTML= "Total: "+  new Intl.NumberFormat('fr-FR', { 
-            style: 'currency', currency: 'EUR' }
-            ).format(Price_total);
-    
+    bloc_product.append(cards_product_basket, total_price);
+
 }
+         
+   
 
-function runBtnDelete(productLocalStorage){
-    let btn_delete= document.querySelectorAll(".btn_delete");
+    function runBtnDelete(productLocalStorage){
+
+        const card_product_basket= document.querySelectorAll(".card_product_basket");
+        console.log(card_product_basket.length);
+      
         
-        for(let l=0; l<btn_delete.length; l++){
-            btn_delete[l].addEventListener("click", (event) => {
+
+        for(let f=0; f<card_product_basket.length; f++){
+            card_product_basket[f].innerHTML+=`<button class="btn_delete">Suppr</button>`;
+        }
+
+        const allBtnDelete= document.querySelectorAll(".btn_delete");
+        console.log(allBtnDelete);
+
+        for(let x=0; x<allBtnDelete.length; x++){
+
+            allBtnDelete[x].addEventListener("click", (event) => {
                 event.preventDefault();
-                nameSelectToSuppr= productLocalStorage[l].name;
+                const nameSelectToSuppr= productLocalStorage[x].name;
                 alert("Le produit" + nameSelectToSuppr +"a été supprimé");
 
                 productLocalStorage= productLocalStorage.filter(elt => elt.name !== nameSelectToSuppr)
@@ -71,8 +108,8 @@ function runBtnDelete(productLocalStorage){
 
             });
         }
+          
     }
-
     function calcTotalPrice (productLocalStorage){   
 
         let Price_total= 0;
@@ -155,18 +192,20 @@ function runBtnDelete(productLocalStorage){
 
         </form>
 
-        <button id="btn_validate">Validez mon panier</button>`
+        <button id="btn_validate">Valider</button>`
     }
    
 
 
 
-function controlForm(productLocalStorage, Total_Price){
+function controlForm(idProductsBuy, Total_Price){
+
 
     // Récupération données formulaire 
 
     const form= document.querySelector(".bloc_form");
     let text_error= document.createElement("p");
+    text_error.classList.add("textError");
     let inputName= document.querySelector("#name");
     let inputLastName= document.querySelector("#lastname");
     let inputPostal= document.querySelector("#postal");
@@ -216,14 +255,9 @@ function controlForm(productLocalStorage, Total_Price){
             
             
             else{
-                const idProductsBuy= [];
-                for(let id=0; id<productLocalStorage.length; id++){
-                    idProductsBuy.push(productLocalStorage[id].id);
-                }
-                console.log(idProductsBuy);
-                
 
                 
+               
                 const order={
                     contact: {
                         firstName: inputName.value,
@@ -277,4 +311,4 @@ function controlForm(productLocalStorage, Total_Price){
                 }))
             
         }
-
+    
