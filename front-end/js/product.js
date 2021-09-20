@@ -131,10 +131,21 @@ function displayInfosProduct(product){
                     }
 
                     function infosAdd() {
-                        const divInfosOrder= document.querySelector(".infos_order")
-                        const div_infos= document.createElement("p");
-                        div_infos.innerHTML= "Vos produit a bien été ajouté au panier"
-                        divInfosOrder.append(div_infos)
+                        if(document.querySelector(".textValidate")=== null && document.querySelector(".textError")===null){
+                            const div_validError= document.querySelector(".validError");
+                            const textInfosOrder= document.createElement("p");
+                            textInfosOrder.classList.add("textValidate")
+                            textInfosOrder.innerHTML= "Vos produit ont bien été ajouté au panier"
+                            div_validError.prepend(textInfosOrder);
+                            }
+                            else if(document.querySelector(".textError")!==null){
+                                const textError= document.querySelector(".textError");
+                                textError.innerHTML= "Vos produit ont bien été ajouté au panier";
+                                textError.classList.remove("textError");
+                                textError.classList.add("textValidate");
+            
+                            }
+                        
                     }
                     
                 }
@@ -143,12 +154,19 @@ function displayInfosProduct(product){
                 
             }
             else{
-                if(document.querySelector(".textError")=== null){
+                if(document.querySelector(".textError")=== null && document.querySelector(".textValidate")===null){
                 const div_validError= document.querySelector(".validError");
                 const textError= document.createElement("p");
                 textError.classList.add("textError");
                 textError.innerHTML="Veuillez entrer une quantité valide";
                 div_validError.prepend(textError);
+                }
+                else if(document.querySelector(".textValidate")!==null){
+                    const textInfosOrder= document.querySelector(".textValidate");
+                    textInfosOrder.innerHTML= "Veuillez entrer une quantité valide";
+                    textInfosOrder.classList.remove("textValidate");
+                    textInfosOrder.classList.add("textError");
+
                 }
             }
             });
@@ -159,61 +177,3 @@ function displayInfosProduct(product){
 
         
 
-/*
-        
-        // Renvoie des données vers le local Storage
-
-        const btn_basket= document.querySelector("#btn_add");
-        const input_quantity= document.querySelector("#quantity_product");
-        
-        const title_product= document.querySelector(".title_product");
-        const price_product= document.querySelector(".price_product");
-        Price_convert = product.price / 100;
-        price_product.innerHTML=new Intl.NumberFormat('fr-FR', { 
-            style: 'currency', currency: 'EUR' }
-            ).format(Price_convert);
-        var color_selected = select_color.options[select_color.selectedIndex].text;
-        
-
-      
-            btn_basket.addEventListener("click", () => {
-            if(input_quantity.value>0){
-
-                let productAdded={
-                    name: product.name,
-                    price: product.price/100,
-                    quantity: input_quantity.value,
-                    color: color_selected,
-                    id: id,
-                }
-                console.log(productAdded);
-                let eltInStorage= JSON.parse(localStorage.getItem("product"))
-                console.log(eltInStorage)
-                function addLocalStorage(){
-                    
-                    
-                    if (eltInStorage === null){
-                        eltInStorage=[];
-                        eltInStorage.push(productAdded);
-                        localStorage.setItem("product", JSON.stringify(eltInStorage))
-                        console.log(eltInStorage)
-            
-                    }
-                    else{
-                        eltInStorage.push(productAdded);
-                        localStorage.setItem("product", JSON.stringify(eltInStorage));
-                        console.log(eltInStorage);
-
-                    }
-                    
-                }
-                
-                
-
-                addLocalStorage()
-                
-            }
-            else{
-                alert("Veuillez entrer une quantité de produit")
-            }
-            });*/
