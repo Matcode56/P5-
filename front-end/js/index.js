@@ -1,37 +1,30 @@
-
-//Fonction fetch pour aller chercher les données dans l'API
 main();
 
 async function main(){
     const products= await getProducts();
+    console.log(products)
 
     for(article of products){
-        display_product(article);
+        displayProduct(article);
     }
 }
 
 
-function getProducts(){
-    return fetch("http://localhost:3000/api/furniture")
-    .then(function(response){
-        return response.json();
-    })
-
-    .then(function(responseAPI){
+async function getProducts(){
+    try {
+        const askAPI = await fetch("http://localhost:3000/api/furniture");
+        const responseAPI = await askAPI.json();
         return responseAPI;
-    })
-
-    .catch(function(error){
-        let bloc_produits= document.querySelector(".produits");
-        bloc_produits.innerHTML="Nous avons rencontrons un problème avec l'affichage des produits. Vérifier que le serveu local est bien actif. <br/> <br/> Vérifier que le port 3000 est bien actif";
+    } catch (error) {
+        let bloc_produits = document.querySelector(".produits");
+        bloc_produits.innerHTML = "Nous avons rencontrons un problème avec l'affichage des produits. Vérifier que le serveu local est bien actif. <br/> <br/> Vérifier que le port 3000 est bien actif";
         bloc_produits.classList.add("text_error");
-    });
-
+    }
 }
 
 //Fonction permettant de disposer les produits sur la page Web
 
-function display_product(article){
+function displayProduct(article){
 
         let card_product= document.createElement("a");
         let img_product= document.createElement("img");
@@ -59,5 +52,4 @@ function display_product(article){
            ).format(Price_convert);
 
        description_product.innerHTML= article.description;
-       
     }

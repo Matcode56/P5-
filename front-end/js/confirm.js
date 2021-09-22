@@ -1,24 +1,27 @@
+main();
 
-let priceLocalStorage= JSON.parse(localStorage.getItem("priceOrder"));
+function main(){
+   const priceOrder= JSON.parse(localStorage.getItem("priceOrder"));
+   const idOrder= localStorage.getItem("numberId");
 
-console.log(priceLocalStorage);
+   displayInfosOrder(priceOrder, idOrder);
+}
 
-let idOrder= localStorage.getItem("numberId");
+function displayInfosOrder(priceOrder, idOrder){
 
-console.log(idOrder);
+   const info_order= document.querySelector(".info_order");
 
-
-
-
-
-let info_order= document.querySelector(".info_order");
-
-info_order.innerHTML+=
+   info_order.innerHTML+=
     `<p>Votre numéro de commande: <span>${idOrder}</span> </p>
      <p>Prix total: <span>${new Intl.NumberFormat('fr-FR', { 
         style: 'currency', currency: 'EUR' }
-        ).format(priceLocalStorage)}</span> </p>
+        ).format(priceOrder)}</span> </p>
      <p>Livraison prévu: <span>5 jours ouvrées</span></p>`;
+}
+
+
+
+
 
 
 

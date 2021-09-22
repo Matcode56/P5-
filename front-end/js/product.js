@@ -1,28 +1,31 @@
-// Récupération de l'Id via les infos de l'URL
 main();
 
 async function main(){
     const idProduct= getIdProduct()
-    console.log(idProduct);
     const product= await getInfosProduct(idProduct);
     displayInfosProduct(product);
 }
 
 function getIdProduct(){
-let param= (new URL(document.location)).searchParams;
+const param= (new URL(document.location)).searchParams;
 return param.get("id");
 }
 
 
-function getInfosProduct(idProduct){
-    let URL= `http://localhost:3000/api/furniture/${idProduct}`
-    return fetch(URL)
-        .then((response)=> response.json())
-        .then(function(responseAPI){
-                return responseAPI;
-                
-            })
-    }
+async function getInfosProduct(idProduct){
+    const URL= `http://localhost:3000/api/furniture/${idProduct}`
+    try {
+        const askAPI = await fetch(URL);
+        const responseAPI = await askAPI.json();
+        return responseAPI;
+    } catch (e) {
+        const bloc_section = document.querySelector("section");
+        const text_error = document.createElement("p");
+        text_error.innerHTML = "Désolé nous rencontrons un problème d'affichage, résseayez ultérieurement";
+        text_error.classList.add("text_error");
+        bloc_section.append(text_error);
+    }   
+}
 
 
 function displayInfosProduct(product){
@@ -87,30 +90,26 @@ function displayInfosProduct(product){
         
         const color_selected = select_color.options[select_color.selectedIndex].text;
 
-
         btn_basket.addEventListener("click", () => {
-
-            
-           
            
             console.log(Number.isInteger(Number(input_quantity.value)));
-
             // Si l'utilisateur a rentré une quantité valide
             if(input_quantity.value>0 && Number.isInteger(Number(input_quantity.value))){
 
-                let productAdded={
-                    name: product.name,
-                    price: product.price/100,
-                    quantity: input_quantity.value,
-                    color: color_selected,
-                    id: product._id,
-                }
-                console.log(productAdded);
-                let eltInStorage= JSON.parse(localStorage.getItem("product"))
-                console.log(eltInStorage);
-
+                addLocalStorage();
 
                 function addLocalStorage(){
+
+                    const productAdded={
+                        name: product.name,
+                        price: product.price/100,
+                        quantity: input_quantity.value,
+                        color: color_selected,
+                        id: product._id,
+                    }
+                    console.log(productAdded);
+                    let eltInStorage= JSON.parse(localStorage.getItem("product"))
+                    console.log(eltInStorage);
                     
                     if (eltInStorage === null){
                         eltInStorage=[];
@@ -150,8 +149,7 @@ function displayInfosProduct(product){
                     
                 }
 
-                addLocalStorage()
-                
+              
             }
             else{
                 if(document.querySelector(".textError")=== null && document.querySelector(".textValidate")===null){
@@ -166,12 +164,9 @@ function displayInfosProduct(product){
                     textInfosOrder.innerHTML= "Veuillez entrer une quantité valide";
                     textInfosOrder.classList.remove("textValidate");
                     textInfosOrder.classList.add("textError");
-
                 }
             }
             });
-        
-
 }   
 
 

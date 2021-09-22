@@ -1,7 +1,7 @@
 main();
 
 async function main(){
-    const productLocalStorage= getProduct();
+    const productLocalStorage= await getProduct();
     
 
     
@@ -10,7 +10,7 @@ async function main(){
     }
 
     else{
-        const idProductsBuy= getIdProduct(productLocalStorage);
+        const idProductsBuy= await getIdProduct(productLocalStorage);
         const Total_Price= calcTotalPrice(productLocalStorage);
         displayInfosProduct(productLocalStorage, Total_Price);
         runBtnDelete(productLocalStorage);
@@ -39,9 +39,6 @@ function getIdProduct(productLocalStorage){
     }
     return idProductsBuy;
 }
-
-
-
 
 function displayInfosProduct(productLocalStorage, Price_total){
 
@@ -108,13 +105,12 @@ function displayInfosProduct(productLocalStorage, Price_total){
 
             });
         }
-          
     }
+
     function calcTotalPrice (productLocalStorage){   
 
         let Price_total= 0;
 
-        
         let arrPrice=[];
         let totalQuantité=[];
         let multiply_quantity_price= [];
@@ -128,12 +124,9 @@ function displayInfosProduct(productLocalStorage, Price_total){
             totalQuantité = totalQuantité.map((x) => parseFloat(x));
         }
 
-        
-
         for(let d=0; d<arrPrice.length; d++){
 
             multiply_quantity_price.push(arrPrice[d]*totalQuantité[d]);
-            
         }
 
         multiply_quantity_price.forEach(price => {
@@ -141,9 +134,6 @@ function displayInfosProduct(productLocalStorage, Price_total){
         })
        
         return Price_total;
-        
-    
-        
     }
 
     function displayForm(){
@@ -173,7 +163,6 @@ function displayInfosProduct(productLocalStorage, Price_total){
             </div>
             
             
-        
             <div>
                 <label for="adress">Adresse:</label>
                 <input type="text" placeholder="Adresse de livraison" id="adress" name="user_adress" required>
@@ -189,7 +178,6 @@ function displayInfosProduct(productLocalStorage, Price_total){
                 <input type="tel" placeholder="Numéro de téléphone" id="phone" name="phone" required >
             </div>
             
-
         </form>
 
         <button id="btn_validate">Valider</button>`
@@ -200,22 +188,19 @@ function displayInfosProduct(productLocalStorage, Price_total){
 
 function controlForm(idProductsBuy, Total_Price){
 
-
     // Récupération données formulaire 
 
     const form= document.querySelector(".bloc_form");
     let text_error= document.createElement("p");
     text_error.classList.add("textError");
-    let inputName= document.querySelector("#name");
-    let inputLastName= document.querySelector("#lastname");
-    let inputPostal= document.querySelector("#postal");
-    let inputCity= document.querySelector("#city");
-    let inputAdress= document.querySelector("#adress");
-    let inputMail= document.querySelector("#mail");
-    let inputTel= document.querySelector("#phone");
+    const inputName= document.querySelector("#name");
+    const inputLastName= document.querySelector("#lastname");
+    const inputPostal= document.querySelector("#postal");
+    const inputCity= document.querySelector("#city");
+    const inputAdress= document.querySelector("#adress");
+    const inputMail= document.querySelector("#mail");
+    const inputTel= document.querySelector("#phone");
     const btn_confirm= document.querySelector("#btn_validate");
-
-
     
     //Contrôle si les règles Regex sont respéctés
 
@@ -255,9 +240,6 @@ function controlForm(idProductsBuy, Total_Price){
             
             
             else{
-
-                
-               
                 const order={
                     contact: {
                         firstName: inputName.value,
@@ -269,46 +251,37 @@ function controlForm(idProductsBuy, Total_Price){
                     products: idProductsBuy,
                 }
 
-
-
                 sendOrder(order, Total_Price);
                 }
             })
-        }
 
-        function sendOrder(order, Total_Price){
-            
-            console.log(order)
-            
-            const initRequest=
-                {
-                    method: "POST",
-                        body: JSON.stringify(order),
-                        headers: { "Content-Type": "application/json" },
-                        mode:"cors",
-                }
-            
-                fetch("http://localhost:3000/api/furniture/order", initRequest) 
-                       
-                .then(function (response) {
-                    return response.json()
-                  })
-            
-                .then(function(responseAPI){
-                    console.log(responseAPI)
-                   console.log(responseAPI.orderId)
-                   
-                   localStorage.setItem("numberId", responseAPI.orderId);
-                   localStorage.setItem("priceOrder", Total_Price);
-                   localStorage.removeItem("product");
+            async function sendOrder(order, Total_Price){
 
-                   window.location.href="confirmation.html"
+                const initRequest=
+                    {
+                        method: "POST",
+                            body: JSON.stringify(order),
+                            headers: { "Content-Type": "application/json" },
+                            mode:"cors",
+                    }
                     
-                })
-            
-                .catch((error =>{
-                    console.log(error)
-                }))
-            
-        }
+                    try{
+                        const orderInfoAPI= await fetch("http://localhost:3000/api/furniture/order", initRequest);
+                        const orderInfo= await orderInfoAPI.json();
+
+                        localStorage.setItem("numberId", orderInfo.orderId);
+                       localStorage.setItem("priceOrder", Total_Price);
+                       localStorage.removeItem("product");
+    
+                       window.location.href="confirmation.html"
+
+
+                    }   
+                    catch(e){
+                        console.log(e);
+                    }
+            }
+    }
+
+        
     
