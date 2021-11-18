@@ -92,7 +92,7 @@ function displayInfosProduct(product){
 
         btn_basket.addEventListener("click", () => {
            
-            console.log(Number.isInteger(Number(input_quantity.value)));
+          
             // Si l'utilisateur a rentré une quantité valide
             if(input_quantity.value>0 && Number.isInteger(Number(input_quantity.value))){
 

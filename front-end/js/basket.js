@@ -3,8 +3,6 @@ main();
 async function main(){
     const productLocalStorage= await getProduct();
     
-
-    
     if(productLocalStorage===null || productLocalStorage.length==0){
         emptyBasket()
     }
@@ -74,7 +72,6 @@ function displayInfosProduct(productLocalStorage, Price_total){
 
 }
          
-   
 
     function runBtnDelete(productLocalStorage){
 
